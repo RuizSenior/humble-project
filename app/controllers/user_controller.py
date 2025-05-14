@@ -8,6 +8,9 @@ from app.utils.auth import create_token
 from app.utils.class_utils import Injectable, inject
 from app.utils.db_utils import get_db_session, verify_password
 import os
+from dotenv import load_dotenv
+load_dotenv()
+
 
 @inject(UserService, EmailService, BookService)
 class UserController(Injectable):
@@ -251,7 +254,7 @@ class UserController(Injectable):
         for book in booksReturn:
             await self.userservice.generate_registro_librosADevolver(codigo,book,db)
 
-        url = os.getenv("HOST") + ":" + os.getenv("PORT") + "/devolucion/" + str(codigo)
+        url = os.getenv("DB_HOST") + ":" + os.getenv("DB_PORT") + "/devolucion/" + str(codigo)
 
         self.emailservice.send_email(
             recipient=userEmail,
